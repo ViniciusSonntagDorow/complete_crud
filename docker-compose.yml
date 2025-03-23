@@ -4,24 +4,35 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecurepassword # Update this password
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     networks:
       - mynetwork
 
   backend:
-    build:
+    build: 
       context: ./backend
       dockerfile: Dockerfile
     volumes:
       - ./backend:/app
     environment:
-      DATABASE_URL: postgresql://postgres:mysecurepassword@postgres/postgres # Ensure this matches the POSTGRES_PASSWORD
+      DATABASE_URL: postgresql://user:password@postgres/mydatabase
     ports:
       - "8000:8000"
     depends_on:
       - postgres
+    networks:
+      - mynetwork
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8501:8501"
     networks:
       - mynetwork
 

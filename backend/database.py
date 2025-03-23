@@ -1,14 +1,16 @@
-# Database creates the connection to the database and provides a session to interact with the database
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-POSTGRES_DATABASE_URL = "postgresql://postgres:mysecurepassword@postgres/postgres"
+SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgres/mydatabase"
 
-engine = create_engine(POSTGRES_DATABASE_URL)
+# Cria o motor do banco de dados, é o conecta com o banco
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
+# Sessão de banco de dados, é quem vai executar as queries
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Base para os modelos declarativos
 Base = declarative_base()
 
 
